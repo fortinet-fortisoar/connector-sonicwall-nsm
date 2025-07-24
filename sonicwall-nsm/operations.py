@@ -75,7 +75,7 @@ def check_payload(payload):
 def commit_changes(config):
     nsm = SonicWallNSM(config)
     endpoint = "commits/pending"
-    resp = nsm.make_api_call(endpoint, method='POST')
+    resp = nsm.make_api_call(endpoint, method='DELETE')
     status = resp.get('status', {}).get('success')
     if status:
         logger.info("All changes successfully committed")
