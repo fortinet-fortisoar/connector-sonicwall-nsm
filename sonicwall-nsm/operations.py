@@ -102,7 +102,13 @@ def get_access_rules(config, params):
     if children_obj_types:
         query_parameters["childrenObjTypes"] = children_obj_types
     query_parameters = check_payload(query_parameters)
-    return nsm.make_api_call(endpoint, method='GET', params=query_parameters)
+    resp = nsm.make_api_call(endpoint, method='GET', params=query_parameters)
+    if resp["status"]["success"]:
+        commit_changes(config)
+        return resp
+    else:
+        response = resp["status"]["info"][0]["message"]
+        raise ConnectorError("Message : {0}".format(response))
 
 
 def create_address_object(config, params):
@@ -136,15 +142,24 @@ def create_address_object(config, params):
     }
     body = check_payload(body)
     resp = nsm.make_api_call(endpoint, method='POST', params=query_parameters, payload=body)
-    commit_changes(config)
-    return resp
+    if resp["status"]["success"]:
+        commit_changes(config)
+        return resp
+    else:
+        response = resp["status"]["info"][0]["message"]
+        raise ConnectorError("Message : {0}".format(response))
 
 
 def get_address_objects(config, params):
     nsm = SonicWallNSM(config)
     endpoint = "graph/addressobject"
     query_parameter = check_payload(params)
-    return nsm.make_api_call(endpoint, method='GET', params=query_parameter)
+    resp = nsm.make_api_call(endpoint, method='GET', params=query_parameter)
+    if resp["status"]["success"]:
+        return resp
+    else:
+        response = resp["status"]["info"][0]["message"]
+        raise ConnectorError("Message : {0}".format(response))
 
 
 def update_address_object(config, params):
@@ -179,8 +194,12 @@ def update_address_object(config, params):
     }
     body = check_payload(body)
     resp = nsm.make_api_call(endpoint, method='PUT', params=query_parameters, payload=body)
-    commit_changes(config)
-    return resp
+    if resp["status"]["success"]:
+        commit_changes(config)
+        return resp
+    else:
+        response = resp["status"]["info"][0]["message"]
+        raise ConnectorError("Message : {0}".format(response))
 
 
 def execute_an_api_call(config, params):
@@ -191,8 +210,12 @@ def execute_an_api_call(config, params):
         query_params = params.get("query_params") if params.get("query_params") else {}
         payload = params.get("payload") if params.get("payload") else {}
         logger.debug("Payload: {0}".format(payload))
-        response = nsm.make_api_call(endpoint, method=http_method, params=query_params, payload=payload)
-        return response
+        resp = nsm.make_api_call(endpoint, method=http_method, params=query_params, payload=payload)
+        if resp["status"]["success"]:
+            return resp
+        else:
+            response = resp["status"]["info"][0]["message"]
+            raise ConnectorError("Message : {0}".format(response))
     except Exception as err:
         logger.exception("{0}".format(str(err)))
         raise ConnectorError("{0}".format(str(err)))
