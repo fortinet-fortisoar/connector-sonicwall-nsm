@@ -208,9 +208,12 @@ def get_all_tenants(config, params):
 
 def _check_health(config):
     try:
-        resp = get_access_rules(config, params={})
-        if resp:
+        resp = get_all_tenants(config, params={})
+        if resp["status"]["success"]:
             return True
+        else:
+            response = resp["status"]["info"][0]["message"]
+            raise ConnectorError("Message : {0}".format(response))
     except Exception as err:
         logger.info(str(err))
         raise ConnectorError(str(err))
