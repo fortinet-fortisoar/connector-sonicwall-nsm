@@ -78,7 +78,7 @@ def commit_changes(config):
     resp = nsm.make_api_call(endpoint, method='POST')
     status = resp.get('status', {}).get('success')
     if status:
-        pass
+        logger.info("All changes successfully committed")
     else:
         logger.error("Failed to commit changes")
 
