@@ -1,0 +1,387 @@
+{
+  "type": "workflow_collections",
+  "data": [
+    {
+      "uuid": "af07448d-b6c2-49b1-afdb-28527616d280",
+      "@type": "WorkflowCollection",
+      "workflows": [
+        {
+          "@type": "Workflow",
+          "uuid": "8d75a4a2-f866-4179-9e6b-7f198ef5a782",
+          "collection": "/api/3/workflow_collections/af07448d-b6c2-49b1-afdb-28527616d280",
+          "steps": [
+            {
+              "uuid": "9f5f04e8-1e52-4f8e-865c-9eb5a1bb2e5b",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "step_variables": {
+                  "input": {
+                    "params": []
+                  }
+                }
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/b348f017-9a94-471f-87f8-ce88b6a7ad62"
+            },
+            {
+              "uuid": "9ecbb140-ea1a-4915-8e23-a70cb02efd80",
+              "@type": "WorkflowStep",
+              "name": "Get Access Rules",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "SonicWall NSM",
+                "config": "",
+                "params": {
+                  "filterType": "",
+                  "serialnum": "",
+                  "ruleType": "Access Rules",
+                  "limit": "",
+                  "limitCount": "",
+                  "childrenObjTypes": ""
+                },
+                "version": "1.0.0",
+                "connector": "sonicwall-nsm",
+                "operation": "get_access_rules",
+                "operationTitle": "Get Access Rules"
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "triggerLimit": null,
+          "description": "Retrieve the list of access rules between the from and to zones from SonicWall NSM.",
+          "name": "Get Access Rules",
+          "tag": "#SonicWall NSM",
+          "recordTags": [
+            "Sonicwall",
+            "sonicwall-nsm"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/9f5f04e8-1e52-4f8e-865c-9eb5a1bb2e5b",
+          "routes": [
+            {
+              "uuid": "69ddc972-4586-47d5-81cb-eab24a7d1596",
+              "@type": "WorkflowRoute",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Get Access Rules",
+              "sourceStep": "/api/3/workflow_steps/9f5f04e8-1e52-4f8e-865c-9eb5a1bb2e5b",
+              "targetStep": "/api/3/workflow_steps/9ecbb140-ea1a-4915-8e23-a70cb02efd80"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "ccaebd4e-a105-42d1-ba39-c866fbd85fe0",
+          "collection": "/api/3/workflow_collections/af07448d-b6c2-49b1-afdb-28527616d280",
+          "steps": [
+            {
+              "uuid": "b2979c51-8aae-41fa-8834-525b96f4f8a1",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "step_variables": {
+                  "input": {
+                    "params": []
+                  }
+                }
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/b348f017-9a94-471f-87f8-ce88b6a7ad62"
+            },
+            {
+              "uuid": "048abd00-9cb3-459a-ad9e-94121b017c48",
+              "@type": "WorkflowStep",
+              "name": "Create Address Object",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "SonicWall NSM",
+                "config": "",
+                "params": {
+                  "name": "",
+                  "zone": "",
+                  "object_type": "",
+                  "description": "",
+                  "serialnum": ""
+                },
+                "version": "1.0.0",
+                "connector": "sonicwall-nsm",
+                "operation": "create_address_object",
+                "operationTitle": "Create Address Object"
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "triggerLimit": null,
+          "description": "Update an existing address object on a SonicWall NSM server based on the parameters you have specified.",
+          "name": "Create Address Object",
+          "tag": "#SonicWall NSM",
+          "recordTags": [
+            "Sonicwall",
+            "sonicwall-nsm"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/b2979c51-8aae-41fa-8834-525b96f4f8a1",
+          "routes": [
+            {
+              "uuid": "e2e2abff-86c7-401b-9b3c-95f074a8ee68",
+              "@type": "WorkflowRoute",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Create Address Object",
+              "sourceStep": "/api/3/workflow_steps/b2979c51-8aae-41fa-8834-525b96f4f8a1",
+              "targetStep": "/api/3/workflow_steps/048abd00-9cb3-459a-ad9e-94121b017c48"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "dc028bbd-8f0c-4cdb-a5fb-832773cfd591",
+          "collection": "/api/3/workflow_collections/af07448d-b6c2-49b1-afdb-28527616d280",
+          "steps": [
+            {
+              "uuid": "e26b8b57-d851-4e8d-9243-e880e4110238",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "step_variables": {
+                  "input": {
+                    "params": []
+                  }
+                }
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/b348f017-9a94-471f-87f8-ce88b6a7ad62"
+            },
+            {
+              "uuid": "8fd142ac-276b-4d30-b797-51e4d5a39b15",
+              "@type": "WorkflowStep",
+              "name": "Get Address Object",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "SonicWall NSM",
+                "config": "",
+                "params": {
+                  "name": "",
+                  "isuuid": true,
+                  "serialnum": ""
+                },
+                "version": "1.0.0",
+                "connector": "sonicwall-nsm",
+                "operation": "get_address_objects",
+                "operationTitle": "Get Address Object"
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "triggerLimit": null,
+          "description": "Retrieve the list of connected items to address objects within the SonicWall NSM server.",
+          "name": "Get Address Object",
+          "tag": "#SonicWall NSM",
+          "recordTags": [
+            "Sonicwall",
+            "sonicwall-nsm"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/e26b8b57-d851-4e8d-9243-e880e4110238",
+          "routes": [
+            {
+              "uuid": "e8c548ef-3932-41f5-bb31-ed00c5993f87",
+              "@type": "WorkflowRoute",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Get Address Object",
+              "sourceStep": "/api/3/workflow_steps/e26b8b57-d851-4e8d-9243-e880e4110238",
+              "targetStep": "/api/3/workflow_steps/8fd142ac-276b-4d30-b797-51e4d5a39b15"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "5f239543-8895-4c52-9418-3bfb53f039a9",
+          "collection": "/api/3/workflow_collections/af07448d-b6c2-49b1-afdb-28527616d280",
+          "steps": [
+            {
+              "uuid": "8fce005a-7d42-43df-9d4f-3eabdd1ae807",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "step_variables": {
+                  "input": {
+                    "params": []
+                  }
+                }
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/b348f017-9a94-471f-87f8-ce88b6a7ad62"
+            },
+            {
+              "uuid": "fc9aa4f8-1913-4dbb-8bb5-e4cf97ec0248",
+              "@type": "WorkflowStep",
+              "name": "Update Address Object",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "SonicWall NSM",
+                "config": "",
+                "params": {
+                  "uuid": "",
+                  "name": "",
+                  "zone": "",
+                  "object_type": "",
+                  "new_name": "",
+                  "serialnum": ""
+                },
+                "version": "1.0.0",
+                "connector": "sonicwall-nsm",
+                "operation": "update_address_object",
+                "operationTitle": "Update Address Object"
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "triggerLimit": null,
+          "description": "Add a address object on a SonicWall NSM server based on the parameters you have specified.",
+          "name": "Update Address Object",
+          "tag": "#SonicWall NSM",
+          "recordTags": [
+            "Sonicwall",
+            "sonicwall-nsm"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/8fce005a-7d42-43df-9d4f-3eabdd1ae807",
+          "routes": [
+            {
+              "uuid": "15e021d1-e591-4d9b-9ca4-824ea922b39e",
+              "@type": "WorkflowRoute",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Update Address Object",
+              "sourceStep": "/api/3/workflow_steps/8fce005a-7d42-43df-9d4f-3eabdd1ae807",
+              "targetStep": "/api/3/workflow_steps/fc9aa4f8-1913-4dbb-8bb5-e4cf97ec0248"
+            }
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "uuid": "16e2428b-9e74-4943-95bf-974d9a86e750",
+          "collection": "/api/3/workflow_collections/af07448d-b6c2-49b1-afdb-28527616d280",
+          "steps": [
+            {
+              "uuid": "303522ef-8ece-4916-bcb2-0d5e0800289f",
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "step_variables": {
+                  "input": {
+                    "params": []
+                  }
+                }
+              },
+              "left": "20",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/b348f017-9a94-471f-87f8-ce88b6a7ad62"
+            },
+            {
+              "uuid": "1faedde6-1f11-4f8c-bb07-007d79874c40",
+              "@type": "WorkflowStep",
+              "name": "Execute an API Request",
+              "description": null,
+              "status": null,
+              "arguments": {
+                "name": "SonicWall NSM",
+                "config": "",
+                "params": {
+                  "method": "",
+                  "endpoint": "",
+                  "query_params": "",
+                  "payload": ""
+                },
+                "version": "1.0.0",
+                "connector": "sonicwall-nsm",
+                "operation": "execute_an_api_call",
+                "operationTitle": "Execute an API Request"
+              },
+              "left": "188",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671"
+            }
+          ],
+          "triggerLimit": null,
+          "description": "Sends an API request to an API endpoint based on specified HTTP method, endpoint, and other input parameters that you have specified, enabling flexible API interactions tailored to user needs.",
+          "name": "Execute an API Request",
+          "tag": "#SonicWall NSM",
+          "recordTags": [
+            "Sonicwall",
+            "sonicwall-nsm"
+          ],
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/303522ef-8ece-4916-bcb2-0d5e0800289f",
+          "routes": [
+            {
+              "uuid": "1fdd5327-6090-43f3-92ab-be707da48668",
+              "@type": "WorkflowRoute",
+              "label": null,
+              "isExecuted": false,
+              "name": "Start-> Execute an API Request",
+              "sourceStep": "/api/3/workflow_steps/303522ef-8ece-4916-bcb2-0d5e0800289f",
+              "targetStep": "/api/3/workflow_steps/1faedde6-1f11-4f8c-bb07-007d79874c40"
+            }
+          ]
+        }
+      ],
+      "name": "Sample - SonicWall NSM - 1.0.0",
+      "description": "SonicWall Network Security Manager (NSM) is a cloud-based (or on-prem) platform designed to centrally manage, monitor, and report on SonicWall firewalls and security policies across distributed environments.",
+      "visible": true,
+      "recordTags": [
+        "Sonicwall",
+        "sonicwall-nsm"
+      ]
+    }
+  ]
+}

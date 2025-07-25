@@ -1,0 +1,631 @@
+{
+  "name": "sonicwall-nsm",
+  "label": "SonicWall NSM",
+  "version": "1.0.0",
+  "category": "Network Security",
+  "description": "SonicWall Network Security Manager (NSM) is a cloud-based (or on-prem) platform designed to centrally manage, monitor, and report on SonicWall firewalls and security policies across distributed environments.",
+  "cs_approved": false,
+  "cs_compatible": true,
+  "contributor": "",
+  "publisher": "Fortinet",
+  "icon_small_name": "small.png",
+  "icon_large_name": "large.png",
+  "help_online": "https://github.com/fortinet-fortisoar/connector-sonicwall-nsm/blob/release/1.0.0/docs/readme.md",
+  "configuration": {
+    "fields": [
+      {
+        "title": "Server URL",
+        "name": "server_url",
+        "type": "text",
+        "description": "Specify the server URL of the SonicWall NSM server to connect and perform automated operations.",
+        "tooltip": "Specify the server URL of the SonicWall NSM server to connect and perform automated operations.",
+        "required": true,
+        "visible": true,
+        "editable": true
+      },
+      {
+        "title": "API Key",
+        "name": "api_key",
+        "type": "password",
+        "tooltip": "Specify the API Key to connect to the endpoint and perform automated operations.",
+        "description": "Specify the API Key to connect to the endpoint and perform automated operations.",
+        "required": true,
+        "visible": true,
+        "editable": true
+      },
+      {
+        "title": "Verify SSL",
+        "name": "verify_ssl",
+        "type": "checkbox",
+        "description": "Specifies whether the SSL certificate for the server is to be verified. By default, this option is selected, i.e., set to true",
+        "tooltip": "Specifies whether the SSL certificate for the server is to be verified. By default, this option is selected, i.e., set to true",
+        "required": false,
+        "editable": true,
+        "visible": true,
+        "value": true
+      }
+    ]
+  },
+  "operations": [
+    {
+      "title": "Get Access Rules",
+      "operation": "get_access_rules",
+      "description": "Retrieve the list of access rules between the from and to zones from SonicWall NSM.",
+      "category": "investigation",
+      "annotation": "get_access_rules",
+      "output_schema": {},
+      "parameters": [
+        {
+          "title": "Filter Type",
+          "name": "filterType",
+          "type": "select",
+          "description": "Select the filter type to retrieve access rules. You can choose from the following options: From Zone to To Zone, Source Address to Destination Address, or Source Port to Destination Port",
+          "tooltip": "Select the filter type to retrieve access rules. You can choose from the following options: From Zone to To Zone, Source Address to Destination Address, or Source Port to Destination Port",
+          "visible": true,
+          "editable": true,
+          "required": true,
+          "options": [
+            "Source Zone to Destination Zone",
+            "Source Address to Destination Address",
+            "Source Port to Destination Port"
+          ],
+          "onchange": {
+            "Source Zone to Destination Zone": [
+              {
+                "title": "Source Zone",
+                "name": "from",
+                "type": "text",
+                "description": "Specify the source zone to filter access rules. Note: If you specify \"Any\" all values need to be considered.",
+                "tooltip": "Specify the source zone to filter access rules. Note: If you specify \"Any\" all values need to be considered.",
+                "visible": true,
+                "editable": true,
+                "required": true,
+                "placeholder": "For e.g LAN, WAN, DMZ, VPN, WLAN, MULTICAST, or Any"
+              },
+              {
+                "title": "Destination Zone",
+                "name": "to",
+                "type": "text",
+                "description": "Specify the destination zone to filter access rules. Note: If you specify \"Any\" all values need to be considered.",
+                "tooltip": "Specify the destination zone to filter access rules.  Note: If you specify \"Any\" all values need to be considered.",
+                "visible": true,
+                "editable": true,
+                "required": true,
+                "placeholder": "For e.g LAN, WAN, DMZ, VPN, WLAN, MULTICAST, or Any"
+              }
+            ],
+            "Source Address to Destination Address": [
+              {
+                "title": "From Address",
+                "name": "from",
+                "type": "text",
+                "description": "Specify the source address to filter access rules. If you are using address object names, they must exist in the firewall configuration. Note: If you specify \"Any\", all values will be considered.",
+                "tooltip": "Specify the source address to filter access rules. If you are using address object names, they must exist in the firewall configuration. Note: If you specify \"Any\", all values will be considered.",
+                "visible": true,
+                "editable": true,
+                "required": true,
+                "placeholder": "For e.g 1.1.1.1, OfficeNet, Any etc"
+              },
+              {
+                "title": "Destination Address",
+                "name": "to",
+                "type": "text",
+                "description": "Specify the destination address to filter access rules. If you are using address object names, they must exist in the firewall configuration. Note: If you specify \"Any\", all values will be considered.",
+                "tooltip": "Specify the destination address to filter access rules. If you are using address object names, they must exist in the firewall configuration. Note: If you specify \"Any\", all values will be considered.",
+                "visible": true,
+                "editable": true,
+                "required": true,
+                "placeholder": "For e.g 1.1.1.1, OfficeNet, Any, etc"
+              }
+            ],
+            "Source Port to Destination Port": [
+              {
+                "title": "Source Port",
+                "name": "from",
+                "type": "text",
+                "description": "Specify the source port to filter access rules. Note: If you specify \"Any\" all values need to be considered.",
+                "tooltip": "Specify the source port to filter access rules. Note: If you specify \"Any\" all values need to be considered.",
+                "visible": true,
+                "editable": true,
+                "required": true,
+                "placeholder": "For e.g 80, 443, 22, Any, etc"
+              },
+              {
+                "title": "Destination Port",
+                "name": "to",
+                "type": "text",
+                "description": "Specify the destination port to filter access rules. Note: If you specify \"Any\" all values need to be considered.",
+                "tooltip": "Specify the destination port to filter access rules. Note: If you specify \"Any\" all values need to be considered.",
+                "visible": true,
+                "editable": true,
+                "required": true,
+                "placeholder": "For e.g 80, 443, 22, Any, etc"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Device Serial Number",
+          "name": "serialnum",
+          "type": "text",
+          "description": "Specify the device serial number to filter access rules.",
+          "tooltip": "Specify the device serial number to filter access rules.",
+          "visible": true,
+          "editable": true,
+          "required": false
+        },
+        {
+          "title": "Rule Type",
+          "name": "ruleType",
+          "type": "select",
+          "description": "Select the rule type to retrieve access rules. You can choose from the following options: Access Rules or Security Policies. By default, it set as \"Access Rules\"",
+          "tooltip": "Select the rule type to retrieve access rules. You can choose from the following options: Access Rules or Security Policies. By default, it set as \"Access Rules\"",
+          "visible": true,
+          "editable": true,
+          "required": false,
+          "options": [
+            "Access Rules",
+            "Security Policies"
+          ],
+          "value": "Access Rules"
+        },
+        {
+          "title": "Limit",
+          "description": "If a specific number of child relationships is required, check the limit option. To retrieve all values, leave the option unchecked.",
+          "type": "checkbox",
+          "name": "limit",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "tooltip": "If a specific number of child relationships is required, check the limit option. To retrieve all values, leave the option unchecked."
+        },
+        {
+          "title": "Limit Total Count",
+          "description": "Specifies the limitCount value is used to determine how many child relationships are required. This parameter helps control the volume of data by limiting the total count of items in the response.",
+          "type": "integer",
+          "name": "limitCount",
+          "required": false,
+          "visible": true,
+          "editable": true,
+          "tooltip": "Specifies the limitCount value is used to determine how many child relationships are required. This parameter helps control the volume of data by limiting the total count of items in the response."
+        },
+        {
+          "title": "Children Object Types",
+          "name": "childrenObjTypes",
+          "type": "text",
+          "description": "Specify the children object type to filter access rules.",
+          "tooltip": "Specify the children object type to filter access rules.",
+          "visible": true,
+          "editable": true,
+          "required": false,
+          "placeholder": "For e.g service, application, etc"
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "title": "Create Address Object",
+      "operation": "create_address_object",
+      "description": "Update an existing address object on a SonicWall NSM server based on the parameters you have specified.",
+      "category": "investigation",
+      "annotation": "create_address_object",
+      "output_schema": {},
+      "parameters": [
+        {
+          "title": "Address Object Name",
+          "name": "name",
+          "type": "text",
+          "tooltip": "Specify the name for the address object you want to update.",
+          "description": "Specify the name for the address object you want to update.",
+          "required": true,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Zone",
+          "name": "zone",
+          "type": "text",
+          "tooltip": "Specify the security zone that the address object belongs to on the SonicWall NSM server.",
+          "description": "Specify the security zone that the address object belongs to on the SonicWall NSM server.",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "placeholder": "For e.g LAN, WAN, VPN, etc."
+        },
+        {
+          "title": "Object Type",
+          "name": "object_type",
+          "type": "select",
+          "description": "Select the object type to update the address object in SonicWall NSM server. You can choose from the following options: Host (Single IP Address), Network (IP/Subnet), Range (Start IP - End IP), FQDN (Domain Name), or MAC Address.",
+          "tooltip": "Select the object type to update the address object in SonicWall NSM server. You can choose from the following options: Host (Single IP Address), Network (IP/Subnet), Range (Start IP - End IP), FQDN (Domain Name), or MAC Address.",
+          "visible": true,
+          "editable": true,
+          "required": true,
+          "options": [
+            "Host (Single IP Address)",
+            "Network (IP/Subnet)",
+            "Range (Start IP - End IP)",
+            "FQDN (Domain Name)",
+            "MAC Address"
+          ],
+          "onchange": {
+            "Host (Single IP Address)": [
+              {
+                "title": "IP Address",
+                "name": "ip",
+                "type": "text",
+                "tooltip": "Specify the IP address of the host you want to define.",
+                "description": "Specify the specific IP address of the host to be added as an address object.",
+                "required": true,
+                "editable": true,
+                "visible": true,
+                "placeholder": "For e.g 192.168.10.0"
+              }
+            ],
+            "Network (IP/Subnet)": [
+              {
+                "title": "IP Address",
+                "name": "ip",
+                "type": "text",
+                "tooltip": "Specify the network IP address (e.g., the base of a subnet).",
+                "description": "Specify the base IP address of the network to be used for this address object.",
+                "required": true,
+                "editable": true,
+                "visible": true,
+                "placeholder": "For e.g 192.168.10.0"
+              },
+              {
+                "title": "Netmask",
+                "name": "netmask",
+                "type": "text",
+                "tooltip": "Specify the subnet mask to define the network range.",
+                "description": "Specify the subnet mask associated with the network address.",
+                "required": true,
+                "editable": true,
+                "visible": true,
+                "placeholder": "For e.g 255.255.255.0"
+              }
+            ],
+            "Range (Start IP - End IP)": [
+              {
+                "title": "Starting Range of IP Address",
+                "name": "start_ip",
+                "type": "text",
+                "tooltip": "Specify the starting IP address of the range.",
+                "description": "Specify the starting IP address of the range.",
+                "required": true,
+                "editable": true,
+                "visible": true,
+                "placeholder": "For e.g 10.10.10.10"
+              },
+              {
+                "title": "Ending Range of IP Address",
+                "name": "end_ip",
+                "type": "text",
+                "tooltip": "Specify the ending IP address of the range.",
+                "description": "Specify the ending IP address of the range.",
+                "required": true,
+                "editable": true,
+                "visible": true,
+                "placeholder": "For e.g 10.10.10.50"
+              }
+            ],
+            "FQDN (Domain Name)": [
+              {
+                "title": "Fully Qualified Domain Name (FQDN)",
+                "name": "fqdn",
+                "type": "text",
+                "tooltip": "Specify the fully qualified domain name (FQDN) to resolve dynamically.",
+                "description": "Specify the DNS-resolvable domain name used to create this address object.",
+                "required": true,
+                "editable": true,
+                "visible": true,
+                "placeholder": "For e.g dns.google"
+              }
+            ],
+            "MAC Address": [
+              {
+                "title": "MAC Address",
+                "name": "mac",
+                "type": "text",
+                "tooltip": "Specify the MAC address of the device to define this object.",
+                "description": "Specify the physical (MAC) address of the device to associate with this object.",
+                "required": true,
+                "editable": true,
+                "visible": true,
+                "placeholder": "For e.g 00:1A:2B:3C:4D:5E"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Description",
+          "name": "description",
+          "type": "text",
+          "description": "Specify the description for the address object you want to create.",
+          "tooltip": "Specify the description for the address object you want to create.",
+          "visible": true,
+          "editable": true,
+          "required": false
+        },
+        {
+          "title": "Device Serial Number",
+          "name": "serialnum",
+          "type": "text",
+          "description": "Specify the device serial number to create the address object.",
+          "tooltip": "Specify the device serial number to create the address object.",
+          "visible": true,
+          "editable": true,
+          "required": false
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "title": "Get Address Object",
+      "operation": "get_address_objects",
+      "description": "Retrieve the list of connected items to address objects within the SonicWall NSM server.",
+      "category": "investigation",
+      "annotation": "get_address_objects",
+      "output_schema": {},
+      "parameters": [
+        {
+          "title": "Address Object Name/UUID",
+          "name": "name",
+          "type": "text",
+          "tooltip": "Specify the name or UUID for the address object based on which you want to retrieve connected items.",
+          "description": "Specify the name or UUID for the address object based on which you want to retrieve connected items.",
+          "required": true,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Is UUID",
+          "name": "isuuid",
+          "type": "checkbox",
+          "description": "Uncheck this option if you are passing a address object name instead of a address object UUID.",
+          "tooltip": "Set to false if providing a address object name instead of a address object UUID.",
+          "visible": true,
+          "editable": true,
+          "required": false,
+          "value": true
+        },
+        {
+          "title": "Device Serial Number",
+          "name": "serialnum",
+          "type": "text",
+          "description": "Specify the device serial number to retrieve the address object.",
+          "tooltip": "Specify the device serial number to retrieve the address object.",
+          "visible": true,
+          "editable": true,
+          "required": false
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "title": "Update Address Object",
+      "operation": "update_address_object",
+      "description": "Add a address object on a SonicWall NSM server based on the parameters you have specified.",
+      "category": "investigation",
+      "annotation": "update_address_object",
+      "output_schema": {},
+      "parameters": [
+        {
+          "title": "Address Object UUID",
+          "name": "uuid",
+          "type": "text",
+          "description": "Specify the UUID for the address object you want to update.",
+          "tooltip": "Specify the UUID for the address object you want to update.",
+          "visible": true,
+          "editable": true,
+          "required": false
+        },
+        {
+          "title": "Address Object Name",
+          "name": "name",
+          "type": "text",
+          "tooltip": "Specify the name for the address object you want to update.",
+          "description": "Specify the name for the address object you want to update.",
+          "required": true,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Zone",
+          "name": "zone",
+          "type": "text",
+          "tooltip": "Specify the security zone that the address object belongs to on the SonicWall NSM server.",
+          "description": "Specify the security zone that the address object belongs to on the SonicWall NSM server.",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "placeholder": "For e.g LAN, WAN, VPN, etc."
+        },
+        {
+          "title": "Object Type",
+          "name": "object_type",
+          "type": "select",
+          "description": "Select the object type to create the address object in SonicWall NSM server. You can choose from the following options: Host (Single IP Address), Network (IP/Subnet), Range (Start IP - End IP), FQDN (Domain Name), or MAC Address.",
+          "tooltip": "Select the object type to create the address object in SonicWall NSM server. You can choose from the following options: Host (Single IP Address), Network (IP/Subnet), Range (Start IP - End IP), FQDN (Domain Name), or MAC Address.",
+          "visible": true,
+          "editable": true,
+          "required": true,
+          "options": [
+            "Host (Single IP Address)",
+            "Network (IP/Subnet)",
+            "Range (Start IP - End IP)",
+            "FQDN (Domain Name)",
+            "MAC Address"
+          ],
+          "onchange": {
+            "Host (Single IP Address)": [
+              {
+                "title": "IP Address",
+                "name": "ip",
+                "type": "text",
+                "tooltip": "Specify the updated IP address assigned to this host address object.",
+                "description": "Specify the IP address representing the host you want to update in the address object.",
+                "required": true,
+                "editable": true,
+                "visible": true,
+                "placeholder": "For e.g 192.168.10.0"
+              }
+            ],
+            "Network (IP/Subnet)": [
+              {
+                "title": "IP Address",
+                "name": "ip",
+                "type": "text",
+                "tooltip": "Specify the updated network base IP address for this object.",
+                "description": "Specify the base IP address of the network to update the network address object.",
+                "required": true,
+                "editable": true,
+                "visible": true,
+                "placeholder": "For e.g 192.168.10.0"
+              },
+              {
+                "title": "Netmask",
+                "name": "netmask",
+                "type": "text",
+                "tooltip": "Specify the updated subnet mask to define the network range.",
+                "description": "Specify the subnet mask to update the range of the network in the address object.",
+                "required": true,
+                "editable": true,
+                "visible": true,
+                "placeholder": "For e.g 255.255.255.0"
+              }
+            ],
+            "Range (Start IP - End IP)": [
+              {
+                "title": "Starting Range of IP Address",
+                "name": "start_ip",
+                "type": "text",
+                "tooltip": "Specify the new starting IP address of the defined range.",
+                "description": "Specify the starting IP address you want to update for the range address object.",
+                "required": true,
+                "editable": true,
+                "visible": true,
+                "placeholder": "For e.g 10.10.10.10"
+              },
+              {
+                "title": "Ending Range of IP Address",
+                "name": "end_ip",
+                "type": "text",
+                "tooltip": "Specify the new ending IP address of the defined range.",
+                "description": "Specify the ending IP address you want to update for the range address object.",
+                "required": true,
+                "editable": true,
+                "visible": true,
+                "placeholder": "For e.g 10.10.10.50"
+              }
+            ],
+            "FQDN (Domain Name)": [
+              {
+                "title": "Fully Qualified Domain Name (FQDN)",
+                "name": "fqdn",
+                "type": "text",
+                "tooltip": "Specify the updated domain name to be resolved dynamically via DNS.",
+                "description": "Specify the fully qualified domain name (FQDN) you want to update in the address object.",
+                "required": true,
+                "editable": true,
+                "visible": true,
+                "placeholder": "For e.g dns.google"
+              }
+            ],
+            "MAC Address": [
+              {
+                "title": "MAC Address",
+                "name": "mac",
+                "type": "text",
+                "tooltip": "Specify the updated MAC address to associate with this object.",
+                "description": "Specify the physical MAC address you want to update in the address object.",
+                "required": true,
+                "editable": true,
+                "visible": true,
+                "placeholder": "For e.g 00:1A:2B:3C:4D:5E"
+              }
+            ]
+          }
+        },
+        {
+          "title": "New Address Object Name",
+          "name": "new_name",
+          "type": "text",
+          "tooltip": "Specify the new name for the address object you want to update in SonicWall NSM server.",
+          "description": "Specify the new name for the address object you want to update in SonicWall NSM server.",
+          "required": true,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Device Serial Number",
+          "name": "serialnum",
+          "type": "text",
+          "description": "Specify the device serial number to update the address object.",
+          "tooltip": "Specify the device serial number to update the address object.",
+          "visible": true,
+          "editable": true,
+          "required": false
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "operation": "execute_an_api_call",
+      "title": "Execute an API Request",
+      "annotation": "execute_an_api_call",
+      "description": "Sends an API request to an API endpoint based on specified HTTP method, endpoint, and other input parameters that you have specified, enabling flexible API interactions tailored to user needs.",
+      "category": "investigation",
+      "visible": true,
+      "enabled": true,
+      "parameters": [
+        {
+          "name": "method",
+          "title": "HTTP Method",
+          "type": "select",
+          "editable": true,
+          "visible": true,
+          "required": true,
+          "description": "Select an HTTP action for the request. You can select from the following options:  \n\nDELETE \n\nGET \n\nPATCH \n\nPOST \n\nPUT ",
+          "options": [
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE"
+          ]
+        },
+        {
+          "title": "Endpoint",
+          "name": "endpoint",
+          "tooltip": "Specify the target API URL path for example: tenants",
+          "description": "Specify the target API URL path for the request. For example, if the website is https://example.com and URL path is https://example.com/images/pic.jpg, the endpoint would be images/pic.jpg.",
+          "type": "text",
+          "visible": true,
+          "editable": true,
+          "required": true
+        },
+        {
+          "title": "Query Parameters",
+          "name": "query_params",
+          "description": "(Optional) Specify any optional parameters to add to the URL and refine the request.",
+          "type": "json",
+          "visible": true,
+          "editable": true,
+          "required": false
+        },
+        {
+          "name": "payload",
+          "title": "Request Payload",
+          "type": "json",
+          "editable": true,
+          "visible": true,
+          "required": false,
+          "description": "(Optional) Specify data, as JSON, to be sent as the request payload (typically for POST or PUT requests)."
+        }
+      ],
+      "output_schema": {}
+    }
+  ]
+}
