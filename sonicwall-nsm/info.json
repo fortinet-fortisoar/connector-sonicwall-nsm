@@ -1,7 +1,7 @@
 {
   "name": "sonicwall-nsm",
   "label": "SonicWall NSM",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "category": "Network Security",
   "description": "SonicWall Network Security Manager (NSM) is a cloud-based (or on-prem) platform designed to centrally manage, monitor, and report on SonicWall firewalls and security policies across distributed environments.",
   "cs_approved": false,
@@ -10,7 +10,7 @@
   "publisher": "Fortinet",
   "icon_small_name": "small.png",
   "icon_large_name": "large.png",
-  "help_online": "https://github.com/fortinet-fortisoar/connector-sonicwall-nsm/blob/release/1.0.0/docs/readme.md",
+  "help_online": "https://github.com/fortinet-fortisoar/connector-sonicwall-nsm/blob/release/1.0.1/docs/readme.md",
   "configuration": {
     "fields": [
       {

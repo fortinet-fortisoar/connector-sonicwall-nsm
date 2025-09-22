@@ -7,6 +7,7 @@ Copyright end
 
 import requests
 from connectors.core.connector import get_logger, ConnectorError
+from .sonicwall_api_auth import *
 from .constants import *
 
 logger = get_logger('sonicwall-nsm')
@@ -20,19 +21,18 @@ class SonicWallNSM(object):
             self.url = 'https://{0}/api/manager/'.format(url)
         else:
             self.url = url + '/api/manager/'
-        self.api_key = config.get('api_key')
         self.verify_ssl = config.get('verify_ssl', False)
-        self.headers = {
-            'accept': 'application/json',
-            'Content-Type': 'application/json',
-            'X-API-KEY': self.api_key
-        }
 
-    def make_api_call(self, endpoint, method='POST', payload=None, params=None):
-        service_endpoint = self.url + endpoint
+    def make_api_call(self, config, endpoint, method='POST', payload=None, params=None, connector_info=None):
         try:
+            token = get_token(config, connector_info)
+            service_endpoint = self.url + endpoint
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            }
             response = requests.request(method, service_endpoint, json=payload,
-                                        headers=self.headers, params=params,
+                                        headers=headers, params=params,
                                         verify=self.verify_ssl)
             logger.debug('API Service Endpoint: {0}'.format(service_endpoint))
             logger.debug('API Payload: {0}'.format(payload))
@@ -60,6 +60,16 @@ class SonicWallNSM(object):
             raise ConnectorError(str(err))
 
 
+def get_token(config, connector_info):
+    try:
+        sonic = SonicWallAuth(config)
+        token = sonic.validate_token(config, connector_info)
+        return token
+    except Exception as err:
+        logger.error(err)
+        raise ConnectorError(err)
+
+
 def check_payload(payload):
     updated_payload = {}
     for key, value in payload.items():
@@ -72,10 +82,10 @@ def check_payload(payload):
     return updated_payload
 
 
-def commit_changes(config):
+def commit_changes(config, connector_info):
     nsm = SonicWallNSM(config)
     endpoint = "commits/pending"
-    resp = nsm.make_api_call(endpoint, method='DELETE')
+    resp = nsm.make_api_call(config, endpoint, method='DELETE', connector_info=connector_info)
     status = resp.get('status', {}).get('success')
     if status:
         logger.info("All changes successfully committed")
@@ -83,7 +93,7 @@ def commit_changes(config):
         logger.error("Failed to commit changes")
 
 
-def get_access_rules(config, params):
+def get_access_rules(config, params, connector_info):
     nsm = SonicWallNSM(config)
     endpoint = "graph/accessrules"
     limit = params.get('limit')
@@ -102,16 +112,16 @@ def get_access_rules(config, params):
     if children_obj_types:
         query_parameters["childrenObjTypes"] = children_obj_types
     query_parameters = check_payload(query_parameters)
-    resp = nsm.make_api_call(endpoint, method='GET', params=query_parameters)
+    resp = nsm.make_api_call(config, endpoint, method='GET', params=query_parameters, connector_info=connector_info)
     if resp["status"]["success"]:
-        commit_changes(config)
+        commit_changes(config, connector_info)
         return resp
     else:
         response = resp["status"]["info"][0]["message"]
         raise ConnectorError("Message : {0}".format(response))
 
 
-def create_address_object(config, params):
+def create_address_object(config, params, connector_info):
     nsm = SonicWallNSM(config)
     endpoint = "graph/addressobject"
     query_parameters = {
@@ -141,20 +151,21 @@ def create_address_object(config, params):
         "in_addr_info": payload
     }
     body = check_payload(body)
-    resp = nsm.make_api_call(endpoint, method='POST', params=query_parameters, payload=body)
+    resp = nsm.make_api_call(config, endpoint, method='POST', params=query_parameters, payload=body,
+                             connector_info=connector_info)
     if resp["status"]["success"]:
-        commit_changes(config)
+        commit_changes(config, connector_info)
         return resp
     else:
         response = resp["status"]["info"][0]["message"]
         raise ConnectorError("Message : {0}".format(response))
 
 
-def get_address_objects(config, params):
+def get_address_objects(config, params, connector_info):
     nsm = SonicWallNSM(config)
     endpoint = "graph/addressobject"
     query_parameter = check_payload(params)
-    resp = nsm.make_api_call(endpoint, method='GET', params=query_parameter)
+    resp = nsm.make_api_call(config, endpoint, method='GET', params=query_parameter, connector_info=connector_info)
     if resp["status"]["success"]:
         return resp
     else:
@@ -162,7 +173,7 @@ def get_address_objects(config, params):
         raise ConnectorError("Message : {0}".format(response))
 
 
-def update_address_object(config, params):
+def update_address_object(config, params, connector_info):
     nsm = SonicWallNSM(config)
     endpoint = "graph/addressobject"
     query_parameters = {
@@ -193,16 +204,17 @@ def update_address_object(config, params):
         "in_addr_info": payload
     }
     body = check_payload(body)
-    resp = nsm.make_api_call(endpoint, method='PUT', params=query_parameters, payload=body)
+    resp = nsm.make_api_call(config, endpoint, method='PUT', params=query_parameters, payload=body,
+                             connector_info=connector_info)
     if resp["status"]["success"]:
-        commit_changes(config)
+        commit_changes(config, connector_info)
         return resp
     else:
         response = resp["status"]["info"][0]["message"]
         raise ConnectorError("Message : {0}".format(response))
 
 
-def execute_an_api_call(config, params):
+def execute_an_api_call(config, params, connector_info):
     try:
         nsm = SonicWallNSM(config)
         endpoint = params.get("endpoint")
@@ -210,7 +222,8 @@ def execute_an_api_call(config, params):
         query_params = params.get("query_params") if params.get("query_params") else {}
         payload = params.get("payload") if params.get("payload") else {}
         logger.debug("Payload: {0}".format(payload))
-        resp = nsm.make_api_call(endpoint, method=http_method, params=query_params, payload=payload)
+        resp = nsm.make_api_call(config, endpoint, method=http_method, params=query_params, payload=payload,
+                                 connector_info=connector_info)
         if resp["status"]["success"]:
             return resp
         else:
@@ -221,22 +234,22 @@ def execute_an_api_call(config, params):
         raise ConnectorError("{0}".format(str(err)))
 
 
-def get_all_tenants(config, params):
+def get_all_tenants(config, params, connector_info):
     nsm = SonicWallNSM(config)
     endpoint = "tenants?size=1"
     query_parameter = check_payload(params)
-    resp = nsm.make_api_call(endpoint, method="GET", params=query_parameter)
+    resp = nsm.make_api_call(config, endpoint, method="GET", params=query_parameter, connector_info=connector_info)
     return resp
 
 
-def _check_health(config):
+def _check_health(config, connector_info):
     try:
-        resp = get_all_tenants(config, params={})
-        if resp["status"]["success"]:
-            return True
-        else:
-            response = resp["status"]["info"][0]["message"]
-            raise ConnectorError("Message : {0}".format(response))
+        if check(config, connector_info):
+            resp = get_all_tenants(config, params={}, connector_info=connector_info)
+            if resp['status']['success']:
+                return True
+            else:
+                raise ConnectorError("{0}".format(resp))
     except Exception as err:
         logger.info(str(err))
         raise ConnectorError(str(err))

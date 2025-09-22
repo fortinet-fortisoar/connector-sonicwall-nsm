@@ -44,7 +44,7 @@
                   "limitCount": "",
                   "childrenObjTypes": ""
                 },
-                "version": "1.0.0",
+                "version": "1.0.1",
                 "connector": "sonicwall-nsm",
                 "operation": "get_access_rules",
                 "operationTitle": "Get Access Rules"
@@ -118,7 +118,7 @@
                   "description": "",
                   "serialnum": ""
                 },
-                "version": "1.0.0",
+                "version": "1.0.1",
                 "connector": "sonicwall-nsm",
                 "operation": "create_address_object",
                 "operationTitle": "Create Address Object"
@@ -190,7 +190,7 @@
                   "isuuid": true,
                   "serialnum": ""
                 },
-                "version": "1.0.0",
+                "version": "1.0.1",
                 "connector": "sonicwall-nsm",
                 "operation": "get_address_objects",
                 "operationTitle": "Get Address Object"
@@ -265,7 +265,7 @@
                   "new_name": "",
                   "serialnum": ""
                 },
-                "version": "1.0.0",
+                "version": "1.0.1",
                 "connector": "sonicwall-nsm",
                 "operation": "update_address_object",
                 "operationTitle": "Update Address Object"
@@ -338,7 +338,7 @@
                   "query_params": "",
                   "payload": ""
                 },
-                "version": "1.0.0",
+                "version": "1.0.1",
                 "connector": "sonicwall-nsm",
                 "operation": "execute_an_api_call",
                 "operationTitle": "Execute an API Request"
@@ -375,7 +375,7 @@
           ]
         }
       ],
-      "name": "Sample - SonicWall NSM - 1.0.0",
+      "name": "Sample - SonicWall NSM - 1.0.1",
       "description": "SonicWall Network Security Manager (NSM) is a cloud-based (or on-prem) platform designed to centrally manage, monitor, and report on SonicWall firewalls and security policies across distributed environments.",
       "visible": true,
       "recordTags": [

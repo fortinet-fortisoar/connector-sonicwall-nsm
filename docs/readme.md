@@ -4,12 +4,19 @@ SonicWall Network Security Manager (NSM) is a cloud-based (or on-prem) platform 
 
 ### Version information
 
-Connector Version: 1.0.0
+Connector Version: 1.0.1
 
 
 Authored By: Fortinet
 
 Certified: No
+
+### Release Notes for version 1.0.1
+
+#### The following enhancements have been made to the SonicWall NSM Connector in version 1.0.1:
+
+- Fixed an issue where the health check was failing to connect to the SonicWall NSM server.
+
 ## Installing the connector
 <p>From FortiSOAR&trade; 6.0.0 onwards, use the <strong>Connector Store</strong> to install the connector. For the detailed procedure to install a connector, click <a href="https://docs.fortinet.com/document/fortisoar/0.0.0/installing-a-connector/1/installing-a-connector" target="_top">here</a>.<br>You can also use the following <code>yum</code> command as a root user to install connectors from an SSH session:</p>
 `yum install cyops-connector-sonicwall-nsm`
@@ -109,7 +116,7 @@ PUT <br>
 
  The output contains a non-dictionary value.
 ## Included playbooks
-The `Sample - SonicWall NSM - 1.0.0` playbook collection comes bundled with the SonicWall NSM connector. These playbooks contain steps using which you can perform all supported actions. You can see bundled playbooks in the **Automation** > **Playbooks** section in FortiSOAR<sup>TM</sup> after importing the SonicWall NSM connector.
+The `Sample - SonicWall NSM - 1.0.1` playbook collection comes bundled with the SonicWall NSM connector. These playbooks contain steps using which you can perform all supported actions. You can see bundled playbooks in the **Automation** > **Playbooks** section in FortiSOAR<sup>TM</sup> after importing the SonicWall NSM connector.
 
 - Get Access Rules
 - Create Address Object

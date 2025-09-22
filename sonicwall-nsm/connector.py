@@ -14,14 +14,17 @@ logger = get_logger('sonicwall-nsm')
 class SonicWallConnector(Connector):
     def execute(self, config, operation, params, **kwargs):
         try:
-            action = operations.get(operation)
-            logger.info('Executing action {}'.format(action))
-            return action(config, params)
+            connector_info = {"connector_name": self._info_json.get('name'),
+                              "connector_version": self._info_json.get('version')}
+            operation = operations.get(operation)
         except Exception as err:
-            logger.exception("An exception occurred [{}]".format(err))
-            raise ConnectorError("An exception occurred [{}]".format(err))
+            logger.exception(err)
+            raise ConnectorError(err)
+        return operation(config, params, connector_info)
 
     def check_health(self, config):
         logger.info('starting health check')
-        _check_health(config)
-        logger.info('completed health check no errors')
+        connector_info = {"connector_name": self._info_json.get('name'),
+                          "connector_version": self._info_json.get('version')}
+        _check_health(config, connector_info)
+        logger.info('Completed health check and no errors found')
